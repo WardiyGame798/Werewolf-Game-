@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Làng Ma Sói - Trận Chiến Bóng Tối</title>
+    <!-- Liên kết file CSS giao diện phong cách Ma Sói -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Thanh Menu trên cùng (Góc trái: Cài đặt / Góc phải: Chỉ số) -->
+    <header class="game-header">
+        <button id="btn-menu" aria-label="Menu cài đặt âm thanh và tùy chọn">☰ Cài đặt</button>
+        <div class="player-stats" aria-live="polite">
+            <span id="stat-wins">Thắng: 0</span> | 
+            <span id="stat-kills">Mục tiêu hạ gục: 0</span>
+        </div>
+    </header>
+
+    <!-- Bảng Cài đặt ẩn/hiện (Menu 3 gạch) -->
+    <div id="settings-modal" class="modal" style="display: none;" aria-label="Bảng cài đặt">
+        <div class="modal-content">
+            <h2>Cài đặt hệ thống</h2>
+            <label><input type="checkbox" id="toggle-music" checked> Bật nhạc nền ma mị</label>
+            <br>
+            <label><input type="checkbox" id="toggle-sfx" checked> Bật hiệu ứng âm thanh</label>
+            <br>
+            <button id="close-settings">Đóng cài đặt</button>
+        </div>
+    </div>
+
+    <main id="game-container">
+        <!-- Màn hình 1: Chào mừng & Đăng nhập thông tin -->
+        <section id="login-screen" aria-label="Màn hình đăng nhập">
+            <h1>Làng Ma Sói: Cuộc Chiến Sống Còn</h1>
+            <p class="subtitle">Nơi trí tuệ và sự lừa dối lên ngôi</p>
+            
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="player-name">Tên hiển thị (Nickname):</label>
+                    <input type="text" id="player-name" placeholder="Ví dụ: Wardiy" required aria-required="true">
+                </div>
+
+                <div class="form-group">
+                    <label for="player-password">Mật khẩu tài khoản (Đám mây):</label>
+                    <input type="password" id="player-password" placeholder="Nhập mật khẩu của bạn">
+                </div>
+
+                <div class="form-group">
+                    <label for="avatar-select">Chọn ảnh đại diện hoặc tải ảnh lên:</label>
+                    <select id="avatar-select" aria-label="Chọn ảnh đại diện">
+                        <option value="avatar-wolf">Sói Xám Ma Quái (Mặc định)</option>
+                        <option value="avatar-hunter">Thợ Săn Kiên Cường</option>
+                        <option value="avatar-witch">Phù Thủy Hắc Ám</option>
+                        <option value="avatar-seer">Tiên Tri Thông Thái</option>
+                    </select>
+                    <!-- Ô hỗ trợ tải ảnh cá nhân -->
+                    <input type="file" id="custom-avatar-file" accept="image/*" aria-label="Tải ảnh đại diện từ thiết bị">
+                </div>
+
+                <button type="submit" id="btn-submit-login" class="btn-primary" aria-label="Nút bấm: Hoàn tất đăng nhập">Hoàn Tất & Vào Sảnh</button>
+            </form>
+        </section>
+
+        <!-- Màn hình 2: Sảnh chọn chế độ & Số lượng người chơi (5 - 15 người) -->
+        <section id="lobby-screen" style="display: none;" aria-label="Sảnh chờ ván đấu">
+            <h2>Thiết Lập Ván Đấu</h2>
+            
+            <!-- Chọn số lượng người chơi chung cho cả 2 chế độ -->
+            <div class="form-group">
+                <label for="player-count">Chọn tổng số người chơi (Từ 5 đến 15 người):</label>
+                <select id="player-count" aria-label="Chọn số lượng người chơi từ 5 đến 15">
+                    <option value="5">5 Người chơi</option>
+                    <option value="7">7 Người chơi</option>
+                    <option value="9" selected>9 Người chơi (Tiêu chuẩn)</option>
+                    <option value="12">12 Người chơi</option>
+                    <option value="15">15 Người chơi (Đại chiến)</option>
+                </select>
+            </div>
+
+            <!-- Hai nhánh chế độ chơi -->
+            <div class="mode-selection">
+                <div class="mode-box">
+                    <h3>Chế độ Solo</h3>
+                    <button type="button" id="btn-play-solo" class="btn-secondary" aria-label="Nút bấm: Chơi với máy thông minh">Chơi với Máy (AI)</button>
+                </div>
+                
+                <div class="mode-box">
+                    <h3>Chế độ Trực Tuyến</h3>
+                    <button type="button" id="btn-create-room" class="btn-secondary" aria-label="Nút bấm: Tạo phòng chơi với người">Tạo Phòng Mới</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Khu vực quản trò tự động thông báo diễn biến (Dành cho trong ván đấu) -->
+        <section id="narrator-box" style="display: none;" aria-live="assertive" aria-label="Khu vực quản trò">
+            <div id="narrator-message">Quản trò đang chuẩn bị kịch bản đêm...</div>
+        </section>
+
+        <!-- Khu vực động chứa các bảng giao diện game sau khi khởi chạy -->
+        <div id="dynamic-game-board"></div>
+    </main>
+
+    <!-- Liên kết file JavaScript điều khiển logic -->
+    <script src="game.js"></script>
+</body>
+</html>
